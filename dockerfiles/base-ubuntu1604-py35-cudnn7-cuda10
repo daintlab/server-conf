@@ -28,7 +28,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         zsh \
         curl \
         python3-tk \
-        ncurses-dev
+        ncurses-dev \
+        libsm6 \
+        libxext6
 
 RUN apt-get update && \
         apt-get install nvinfer-runtime-trt-repo-ubuntu1604-5.0.2-ga-cuda10.0 \
@@ -57,7 +59,8 @@ RUN ${PIP} --no-cache-dir install --upgrade \
     setuptools \
     ipython \
     ipdb \
-    matplotlib
+    matplotlib \
+    opencv-python
 
 # Some TF tools expect a "python" binary
 RUN ln -s $(which ${PYTHON}) /usr/local/bin/python 
