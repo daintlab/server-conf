@@ -30,7 +30,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         python3-tk \
         ncurses-dev \
         libsm6 \
-        libxext6
+        libxext6 \
+        eog
 
 RUN apt-get update && \
         apt-get install nvinfer-runtime-trt-repo-ubuntu1604-5.0.2-ga-cuda10.0 \
@@ -60,7 +61,9 @@ RUN ${PIP} --no-cache-dir install --upgrade \
     ipython \
     ipdb \
     matplotlib \
-    opencv-python
+    opencv-python \
+    pandas \
+    scipy
 
 # Some TF tools expect a "python" binary
 RUN ln -s $(which ${PYTHON}) /usr/local/bin/python 
