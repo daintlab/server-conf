@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          sudo \
          htop \
          vim \
+         wget \
+         ncurses-dev \
          ca-certificates \
          libjpeg-dev \
          libpng-dev && \
