@@ -25,7 +25,7 @@ ARG UID
 ARG GID
 
 RUN addgroup --gid ${UID} ${UNAME}
-RUN addgroup --gid 999 docker
+RUN addgroup --gid 990 docker
 RUN useradd -m -u ${UID} --gid ${UID} -s /bin/bash -p ${UNAME} ${UNAME}
 RUN usermod -aG docker ${UNAME}
 RUN echo "${UNAME}:${UNAME}" | chpasswd
@@ -44,7 +44,7 @@ RUN curl -o ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest
      $CONDA_DIR/bin/conda install -y python=$PYTHON_VERSION && \
      $CONDA_DIR/bin/conda install -y numpy && \
      $CONDA_DIR/bin/conda install -y pyyaml scipy ipython ninja cython typing && \
-     $CONDA_DIR/bin/conda install -y pytorch torchvision cudatoolkit=11.0 -c pytorch-nightly && \
+     $CONDA_DIR/bin/conda install -y pytorch torchvision cudatoolkit=11.1 -c pytorch -c nvidia && \
      $CONDA_DIR/bin/conda install -y -c pytorch magma-cuda111 && \
      $CONDA_DIR/bin/conda install -y -c conda-forge pytorch-lightning matplotlib ipdb && \
      $CONDA_DIR/bin/conda install -y -c anaconda pylint scikit-learn scikit-image && \
