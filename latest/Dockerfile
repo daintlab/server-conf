@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu18.04 as base
+FROM nvidia/cuda:11.1-cudnn8-runtime-ubuntu18.04 as base
 
 ARG PYTHON_VERSION=3.8
 ARG WITH_TORCHVISION=1
@@ -14,7 +14,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          ncurses-dev \
          ca-certificates \
          libjpeg-dev \
-         libpng-dev && \
+         libpng-dev \
+         zsh \
+         locales && \
      rm -rf /var/lib/apt/lists/*
 
 # env setting for server
@@ -23,7 +25,7 @@ ARG UID
 ARG GID
 
 RUN addgroup --gid ${UID} ${UNAME}
-RUN addgroup --gid 999 docker
+RUN addgroup --gid 990 docker
 RUN useradd -m -u ${UID} --gid ${UID} -s /bin/bash -p ${UNAME} ${UNAME}
 RUN usermod -aG docker ${UNAME}
 RUN echo "${UNAME}:${UNAME}" | chpasswd
@@ -39,11 +41,15 @@ RUN curl -o ~/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest
      chmod +x ~/miniconda.sh && \
      ~/miniconda.sh -b -p $CONDA_DIR && \
      rm ~/miniconda.sh && \
-     $CONDA_DIR/bin/conda install -y python=$PYTHON_VERSION numpy pyyaml scipy ipython mkl mkl-include ninja cython typing && \
-     $CONDA_DIR/bin/conda install -y -c pytorch magma-cuda102 torchvision cudatoolkit=10.2 && \
-     $CONDA_DIR/bin/conda install -y -c conda-forge pytorch-lightning && \
+     $CONDA_DIR/bin/conda install -y python=$PYTHON_VERSION && \
+     $CONDA_DIR/bin/conda install -y numpy && \
+     $CONDA_DIR/bin/conda install -y pyyaml scipy ipython ninja cython typing && \
+     $CONDA_DIR/bin/conda install -y pytorch torchvision cudatoolkit=11.1 -c pytorch -c nvidia && \
+     $CONDA_DIR/bin/conda install -y -c pytorch magma-cuda111 && \
+     $CONDA_DIR/bin/conda install -y -c conda-forge pytorch-lightning matplotlib ipdb && \
+     $CONDA_DIR/bin/conda install -y -c anaconda pylint scikit-learn scikit-image && \
      $CONDA_DIR/bin/conda clean -ya
 ENV PATH $CONDA_DIR/bin:$PATH
 
-WORKDIR /daintlab/home/${UNAME}
+WORKDIR /nas/home/${UNAME}
 
