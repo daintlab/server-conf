@@ -32,5 +32,5 @@ RUN adduser ${UNAME} sudo
 USER ${UNAME}
 ENV HOME /home/${UNAME}
 
-WORKDIR /daintlab/home/${UNAME}
+WORKDIR /nas/home/${UNAME}
 
